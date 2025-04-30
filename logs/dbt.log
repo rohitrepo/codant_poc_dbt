@@ -1,0 +1,30 @@
+[0m16:15:52.154046 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104291410>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1042d2fd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1042d3650>]}
+
+
+============================== 16:15:52.156873 | 4130d96c-ca60-4580-aba6-b19e7807f5e9 ==============================
+[0m16:15:52.156873 [info ] [MainThread]: Running with dbt=1.9.1
+[0m16:15:52.157147 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/rohityadav/.dbt', 'fail_fast': 'False', 'version_check': 'True', 'log_path': 'logs', 'debug': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt init', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m16:17:41.215306 [debug] [MainThread]: Starter project path: /Users/rohityadav/.pyenv/versions/3.11.9/envs/dbt_ssv/lib/python3.11/site-packages/dbt/include/starter_project
+[0m16:17:41.234345 [info ] [MainThread]: 
+Your new dbt project "dbt_codanat_demo_project" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m16:17:41.235076 [info ] [MainThread]: Setting up your profile.
+[0m16:37:06.285837 [info ] [MainThread]: Profile dbt_codanat_demo_project written to /Users/rohityadav/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m16:37:06.347481 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 1274.2559, "process_in_blocks": "0", "process_kernel_time": 2.444871, "process_mem_max_rss": "174735360", "process_out_blocks": "0", "process_user_time": 1.97914}
+[0m16:37:06.354080 [debug] [MainThread]: Command `dbt init` succeeded at 16:37:06.349883 after 1274.26 seconds
+[0m16:37:06.361656 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1042ebf90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1042ebcd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1004da890>]}
+[0m16:37:06.366832 [debug] [MainThread]: Flushing usage events
+[0m16:37:07.469625 [debug] [MainThread]: An error was encountered while trying to flush usage events
