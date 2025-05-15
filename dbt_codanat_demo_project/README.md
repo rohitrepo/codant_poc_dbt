@@ -20,12 +20,12 @@ Try running the following commands:
 dbt_codanat_demo_project:
   outputs:
     dev:
-      account: dbcatfo-ii99170
-      database: DB_POC
-      password: Hellodbttesting@121
-      role: ACCOUNTADMIN
-      schema: SCH_RAW
-      threads: 1
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA') }}"
+      threads: 4
       type: snowflake
-      user: rohityadav121
-      warehouse: COMPUTE_WH
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
