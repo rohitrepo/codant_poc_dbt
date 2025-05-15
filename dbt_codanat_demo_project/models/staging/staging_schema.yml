@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: stg_hosts
+    description: "Staged host data with basic cleaning and type casting."
+    columns:
+      - name: host_id
+        description: "Unique identifier for the host."
+        tests:
+          - unique
+          - not_null
+      - name: host_name
+        description: "Name of the host."
+      - name: is_superhost
+        description: "Boolean indicating if the host is a superhost."
+        tests:
+          - not_null
+      - name: host_created_at
+        description: "Timestamp when the host record was created."
+      - name: host_updated_at
+        description: "Timestamp when the host record was last updated."
+
+  - name: stg_listings
+    description: "Staged listing data with basic cleaning, type casting, and price parsing."
+    columns:
+      - name: listing_id
+        description: "Unique identifier for the listing."
+        tests:
+          - unique
+          - not_null
+      - name: listing_url
+        description: "URL of the listing on Airbnb."
+      - name: listing_name
+        description: "Name of the listing."
+      - name: room_type
+        description: "Type of room offered (e.g., Entire home/apt, Private room)."
+      - name: minimum_nights
+        description: "Minimum number of nights for a booking."
+      - name: host_id
+        description: "Identifier for the host of the listing."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_hosts')
+              field: host_id
+      - name: price_usd
+        description: "Price of the listing per night in USD."
+      - name: listing_created_at
+        description: "Timestamp when the listing record was created."
+      - name: listing_updated_at
+        description: "Timestamp when the listing record was last updated."
+
+  - name: stg_reviews
+    description: "Staged review data with basic cleaning and a generated surrogate key."
+    columns:
+      - name: review_id
+        description: "Surrogate key for the review."
+        tests:
+          - unique
+          - not_null
+      - name: listing_id
+        description: "Identifier for the listing being reviewed."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_listings')
+              field: listing_id
+      - name: review_date
+        description: "Date the review was submitted."
+        tests:
+          - not_null
+      - name: reviewer_name
+        description: "Name of the reviewer."
+      - name: review_comment
+        description: "Text content of the review."
+      - name: review_sentiment
+        description: "Sentiment of the review (positive, negative, neutral)."
+        tests:
+          - accepted_values:
+              values: ['positive', 'negative', 'neutral', ''] 
+              # Adding empty string as some cleaning might result in it, or handle upstream
