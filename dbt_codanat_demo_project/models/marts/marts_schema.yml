@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: dim_hosts
+    description: "Dimension table for hosts, including tenure information."
+    columns:
+      - name: host_id
+        description: "Unique identifier for the host."
+        tests:
+          - unique
+          - not_null
+      - name: host_name
+        description: "Name of the host."
+      - name: is_superhost
+        description: "Boolean indicating if the host is a superhost."
+      - name: host_created_at
+        description: "Timestamp when the host was created."
+      - name: host_updated_at
+        description: "Timestamp when the host was last updated."
+      - name: host_tenure_days
+        description: "Number of days the host has been active."
+
+  - name: dim_listings
+    description: "Dimension table for listings, including host details and listing age."
+    columns:
+      - name: listing_id
+        description: "Unique identifier for the listing."
+        tests:
+          - unique
+          - not_null
+      - name: host_id
+        description: "Identifier for the host of this listing."
+        tests:
+          - not_null
+          - relationships: # Test referential integrity to dim_hosts
+              to: ref('dim_hosts')
+              field: host_id
+      - name: listing_age_days
+        description: "Number of days since the listing was created."
+      - name: price_usd
+        description: "Price of the listing per night."
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              # strictly_greater_than: true # if price cannot be 0
+      # Add other column descriptions and tests as needed
+
+  - name: fct_reviews
+    description: "Fact table containing individual reviews with associated listing and host IDs, and a sentiment score."
+    columns:
+      - name: review_id
+        description: "Unique identifier for the review."
+        tests:
+          - unique
+          - not_null
+      - name: listing_id
+        description: "Identifier for the listing reviewed."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_listings')
+              field: listing_id
+      - name: host_id
+        description: "Identifier for the host of the listing reviewed."
+        tests:
+          - not_null
+          # No direct FK test to dim_hosts here as it's derived via dim_listings
+          # but can be inferred.
+      - name: review_date
+        description: "Date of the review."
+      - name: review_sentiment
+        description: "Categorical sentiment of the review."
+      - name: sentiment_score
+        description: "Numerical representation of sentiment (1: positive, 0: neutral, -1: negative)."
+        tests:
+          - accepted_values:
+              values: [1, 0, -1]
+
+  - name: mart_host_summary
+    description: "Aggregated metrics per host, summarizing their listings and review performance."
+    columns:
+      - name: host_id
+        description: "Unique identifier for the host."
+        tests:
+          - unique
+          - not_null
+      - name: total_listings
+        description: "Total number of active listings for the host."
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      - name: avg_listing_price
+        description: "Average price of the host's listings."
+      - name: total_reviews_on_listings
+        description: "Total number of reviews received across all of the host's listings."
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      - name: avg_review_sentiment_score
+        description: "Average sentiment score for the host's listings."
