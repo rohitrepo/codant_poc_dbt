@@ -24,9 +24,36 @@ sf_options = {
 s3_input_bucket = "s3://raw-data-bucket/airbnb/"
 
 # Read raw data from S3
-raw_hosts = spark.read.parquet(f"{s3_input_bucket}hosts/")
-raw_listings = spark.read.parquet(f"{s3_input_bucket}listings/")
-raw_reviews = spark.read.parquet(f"{s3_input_bucket}reviews/")
+hosts_schema = StructType([
+    StructField("id", StringType(), True),
+    StructField("name", StringType(), True),
+    StructField("is_superhost", StringType(), True),
+    StructField("created_at", TimestampType(), True),
+    StructField("updated_at", TimestampType(), True)
+])
+raw_hosts = spark.read.schema(hosts_schema).parquet(f"{s3_input_bucket}hosts/")
+
+listings_schema = StructType([
+    StructField("id", StringType(), True),
+    StructField("listing_url", StringType(), True),
+    StructField("name", StringType(), True),
+    StructField("room_type", StringType(), True),
+    StructField("minimum_nights", StringType(), True),
+    StructField("price", StringType(), True),
+    StructField("host_id", StringType(), True),
+    StructField("created_at", TimestampType(), True),
+    StructField("updated_at", TimestampType(), True)
+])
+raw_listings = spark.read.schema(listings_schema).parquet(f"{s3_input_bucket}listings/")
+
+reviews_schema = StructType([
+    StructField("id", StringType(), True),
+    StructField("listing_id", StringType(), True),
+    StructField("date", StringType(), True),
+    StructField("reviewer_name", StringType(), True),
+    StructField("comments", StringType(), True)
+])
+raw_reviews = spark.read.schema(reviews_schema).parquet(f"{s3_input_bucket}reviews/")
 
 ## 1. Clean and transform hosts data (for dim_hosts)
 def process_hosts(df):
