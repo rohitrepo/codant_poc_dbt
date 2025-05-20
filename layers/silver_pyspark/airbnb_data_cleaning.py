@@ -148,23 +148,21 @@ clean_reviews = process_reviews(raw_reviews)
 
 ## 4. Write processed data directly to Snowflake tables
 # Write hosts to Snowflake
-clean_hosts.write \
+clean_hosts.repartition(4).write \
     .format("net.snowflake.spark.snowflake") \
     .options(**sf_options) \
     .option("dbtable", "RAW_HOSTS") \
     .mode("overwrite") \
     .save()
 
-# Write listings to Snowflake
-clean_listings.write \
+clean_listings.repartition(4).write \
     .format("net.snowflake.spark.snowflake") \
     .options(**sf_options) \
     .option("dbtable", "RAW_LISTINGS") \
     .mode("overwrite") \
     .save()
 
-# Write reviews to Snowflake
-clean_reviews.write \
+clean_reviews.repartition(4).write \
     .format("net.snowflake.spark.snowflake") \
     .options(**sf_options) \
     .option("dbtable", "RAW_REVIEWS") \
