@@ -11,9 +11,9 @@ spark = SparkSession.builder \
 
 # Snowflake connection configuration
 sf_options = {
-    "sfURL": "your_account.snowflakecomputing.com",
-    "sfUser": "your_username",
-    "sfPassword": "your_password",
+    "sfURL": "dbcatfo-ii99170.snowflakecomputing.com",
+    "sfUser": "rohityadav121",
+    "sfPassword": "Hellodbttesting@121",
     "sfDatabase": "AIRBNB_RAW",
     "sfSchema": "PUBLIC",
     "sfWarehouse": "COMPUTE_WH",
