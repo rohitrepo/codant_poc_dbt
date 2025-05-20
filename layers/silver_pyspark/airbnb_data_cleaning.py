@@ -42,7 +42,7 @@ def process_hosts(df):
     # Data quality checks and cleaning
     hosts_clean = hosts_clean.withColumn(
         "IS_SUPERHOST",
-        when(col("IS_SUPERHOST").isin(["t", "true", True]), True)
+        when(lower(trim(col("IS_SUPERHOST"))).isin(["t", "true"]), True)
         .otherwise(False)
     )
     
