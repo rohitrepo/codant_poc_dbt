@@ -121,10 +121,11 @@ def process_reviews(df):
     )
     
     # Add sentiment analysis (simplified example)
+    reviews_clean = reviews_clean.withColumn("REVIEW_COMMENT_LOWER", lower(col("REVIEW_COMMENT")))
     reviews_clean = reviews_clean.withColumn(
         "REVIEW_SENTIMENT",
-        when(lower(col("REVIEW_COMMENT")).contains("great"), "positive")
-        .when(lower(col("REVIEW_COMMENT")).contains("bad"), "negative")
+        when(col("REVIEW_COMMENT_LOWER").contains("great"), "positive")
+        .when(col("REVIEW_COMMENT_LOWER").contains("bad"), "negative")
         .otherwise("neutral")
     )
     
