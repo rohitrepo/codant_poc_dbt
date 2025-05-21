@@ -26,7 +26,7 @@ case
             'Independence Day%',
             'Labor Day%',
             'Memorial Day%'
-        {%- else %}
+        {%- elif customer_name_var != var('excluded_client_for_staff_service', 'generic_excluded_client') %}
             -- General holiday keywords for clients not matching 'generic_excluded_client'
             '%HOLIDAY%',
             '%CHRISTMAS%',
